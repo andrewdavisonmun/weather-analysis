@@ -1,0 +1,26 @@
+import pandas as pd
+
+def daily_temperature_range(df):
+    """
+    Calculates daily temperature range for a weather DataFrame.
+
+    Parameters
+    df : pandas DataFrame
+        with Columns:
+        - "Max Temp (°C)"
+        - "Min Temp (°C)"
+
+    Returns
+    pandas Series
+    with index:
+    date
+    and values:
+    Max Temp (°C) - Min Temp (°C)
+    """
+    if "Max Temp (°C)" not in df.columns or "Min Temp (°C)" not in df.columns:
+        raise ValueError("DataFrame must contain max and min temperature columns.")
+
+    max_t = pd.to_numeric(df["Max Temp (°C)"], errors="coerce")
+    min_t = pd.to_numeric(df["Min Temp (°C)"], errors="coerce")
+
+    return max_t - min_t
