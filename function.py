@@ -24,3 +24,23 @@ def daily_temperature_range(df):
     min_t = pd.to_numeric(df["Min Temp (°C)"], errors="coerce")
 
     return max_t - min_t
+
+def rolling_mean_temperature(df, window=30):
+    """
+    Calculates a rolling average of the mean temperature.
+
+    Parameters:
+    df : 
+    pandas.DataFrame
+        Must contain: "Mean Temp (°C)"
+
+    window : 
+    int
+        Rolling window size in days
+
+    Returns:
+    pandas.Series
+        N day rolling mean temperature. 30 by default
+    """
+    temps = pd.to_numeric(df["Mean Temp (°C)"], errors="coerce")
+    return temps.rolling(window=window, min_periods=1).mean()
