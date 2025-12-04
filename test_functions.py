@@ -37,7 +37,7 @@ def test_rolling_mean_temperature_window1():
 
 def test_rolling_mean_temperature_with_nan():
   df = pd.DataFrame({"Mean Temp (°C)": [10, np.nan, 20]})
-  expected = pd.Series([10.0, 10.0, 15.0])
+  expected = pd.Series([10.0, 10.0, 20.0])
   result = rolling_mean_temperature(df, window = 2)
   np.testing.assert_allclose(result.values, expected.values, equal_nan = True)
 
@@ -47,6 +47,20 @@ def test_yearly_extreme_days():
   df = pd.DataFrame({"Max Temp (°C)": [10, 50, 20, 5], "Min Temp (°C)": [0, 30, -10, -20]}, index = dates)
   result = yearly_extreme_days(df, high_quantile = 0.75, low_quantile = 0.25)
   expected = pd.DataFrame({"extreme_hot_days": [1], "extreme_cold_days": [1]}, index=pd.Index([2011], dtype=result.index.dtype, name='year'))
+  pd.testing.assert_frame_equal(result, expected)
+
+def test_yearly_extreme_days_multiple_years():
+  dates = pd.date_range(start="2011-12-31", periods = 5)
+  df = pd.DataFrame({"Max Temp (°C)": [10, 50, 20, 5, 15], "Min Temp (°C)": [0, 30, -10, -20, 5]}, index = dates)
+  result = yearly_extreme_days(df, high_quantile = 0.6, low_quantile = 0.4)
+  expected = pd.DataFrame({"extreme_hot_days": [1, 1], "extreme_cold_days": [1, 1]}, index=pd.Index([2011, 2012], dtype=result.index.dtype, name='year'))
+  pd.testing.assert_frame_equal(result, expected)
+
+def test_yearly_extreme_days_no_extremes():
+  dates = pd.date_range(start="2011-01-01", periods = 3)
+  df = pd.DataFrame({"Max Temp (°C)": [10, 10, 10], "Min Temp (°C)": [5, 5, 5]}, index = dates)
+  result = yearly_extreme_days(df, high_quantile = 0.9, low_quantile = 0.1)
+  expected = pd.DataFrame({"extreme_hot_days": [0], "extreme_cold_days": [0]}, index=pd.Index([2011], dtype=result.index.dtype, name='year'))
   pd.testing.assert_frame_equal(result, expected)
 
 # yearly_mean_temperature
