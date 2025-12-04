@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
-from function import daily_temperature_range, rolling_mean_temperature, yearly_extreme_days, yearly_mean_temperature, temperature_trend
+from function import daily_temperature_range, rolling_mean_temperature, yearly_extreme_days, yearly_mean_temperature, temperature_trend, get_season
+import pytest
 
 # daily_temperature_range
 def test_daily_temperature_range():
@@ -99,3 +100,30 @@ def test_temperature_trend_flat():
   slope, p_value = temperature_trend(years, values)
   assert round(slope, 5) == 0.0, f"Expected slope 0.0, got {slope}"
   assert 0 <= p_value <= 1, f"p-value out of bounds: {p_value}"
+
+# Test get_season
+def test_get_season_winter():
+  assert get_season(12) == 'Winter'
+  assert get_season(1) == 'Winter'
+  assert get_season(2) == 'Winter'
+
+def test_get_season_spring():
+  assert get_season(3) == 'Spring'
+  assert get_season(4) == 'Spring'
+  assert get_season(5) == 'Spring'
+
+def test_get_season_summer():
+  assert get_season(6) == 'Summer'
+  assert get_season(7) == 'Summer'
+  assert get_season(8) == 'Summer'
+
+def test_get_season_fall():
+  assert get_season(9) == 'Fall'
+  assert get_season(10) == 'Fall'
+  assert get_season(11) == 'Fall'
+
+def test_get_season_invalid():
+    with pytest.raises(ValueError):
+        get_season(0)
+    with pytest.raises(ValueError):
+        get_season(13)
