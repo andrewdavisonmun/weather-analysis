@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from function import daily_temperature_range, rolling_mean_temperature, yearly_extreme_days, yearly_mean_temperature, temperature_trend
 
+# daily_temperature_range
 def test_daily_temperature_range():
   df = pd.DataFrame({"Max Temp (°C)": [10, 20], "Min Temp (°C)": [5, 15]})
   expected = pd.Series([5,5])
@@ -14,6 +15,14 @@ def test_daily_temperature_range_with_nan():
   result = daily_temperature_range(df)
   assert result.equals(expected), f"Expected {expected.tolist()}, got {result.tolist()}"
 
+def test_daily_temperature_range_negative():
+  df = pd.DataFrame({"Max Temp (°C)": [10, -5], "Min Temp (°C)": [-10, -15]})
+  expected = pd.Series([10,10])
+  result = daily_temperature_range(df)
+  assert result.equals(expected), f"Expected {expected.tolist()}, got {result.tolist()}"
+
+
+# rolling_mean_temperature
 def test_rolling_mean_temperature():
   df = pd.DataFrame({"Mean Temp (°C)": [10, 20, 30, 40]})
   expected = pd.Series([10.0, 15.0, 25.0, 35.0])
@@ -26,6 +35,7 @@ def test_rolling_mean_temperature_window1():
   result = rolling_mean_temperature(df, window = 1)
   assert result.equals(expected), f"Expected {expected.tolist()}, got {result.tolist()}"
 
+# yearly_extreme_days
 def test_yearly_extreme_days():
   dates = pd.date_range(start="2011-01-01", periods = 4)
   df = pd.DataFrame({"Max Temp (°C)": [10, 50, 20, 5], "Min Temp (°C)": [0, 30, -10, -20]}, index = dates)
@@ -33,6 +43,7 @@ def test_yearly_extreme_days():
   expected = pd.DataFrame({"extreme_hot_days": [1], "extreme_cold_days": [1]}, index=pd.Index([2011], dtype=result.index.dtype, name='year'))
   pd.testing.assert_frame_equal(result, expected)
 
+# yearly_mean_temperature
 def test_yearly_mean_temperature():
   dates = pd.date_range(start="2011-01-01", periods = 4)
   df = pd.DataFrame({"Mean Temp (°C)": [10, 20, 30, 40]}, index = dates)
@@ -40,6 +51,7 @@ def test_yearly_mean_temperature():
   expected = pd.Series([25.0], index=pd.Index([2011], dtype=result.index.dtype, name='year'))
   assert result.equals(expected), f"Expected {expected.tolist()}, got {result.tolist()}"
 
+# temperature_trend
 def test_temperature_trend():
   years = [2020, 2021, 2022]
   values = [10, 20, 30]
