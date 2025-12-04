@@ -65,18 +65,21 @@ def yearly_extreme_days(df, high_quantile = 0.99, low_quantile = 0.01):
     """
     df = df.copy()
     df['year'] = df.index.year
-    hot_cutoff = df["Max Temp (°C)"].quantile(high_quantile)
-    cold_cutoff = df["Min Temp (°C)"].quantile(low_quantile)
-
-    extreme_hot = df[df["Max Temp (°C)"] >= hot_cutoff].groupby('year').size()
-    extreme_cold = df[df["Min Temp (°C)"] <= cold_cutoff].groupby('year').size()
-
-    result = pd.DataFrame({
-        'extreme_hot_days': extreme_hot,
-        'extreme_cold_days': extreme_cold
-    }).fillna(0).astype(int)
+    result = []
+    for year, group in df.groupby('year'):
+        hot_cutoff = group["Max Temp (°C)"].quantile(high_quantile)
+        cold_cutoff = group["Min Temp (°C)"].quantile(low_quantile)
     
-    return result
+        extreme_hot = (group["Max Temp (°C)"] > hot_cutoff).sum()
+        extreme_cold = (group["Min Temp (°C)"] < cold_cutoff).sum()
+
+        result.append({
+            'year': year,
+            'extreme_hot_days': extreme_hot,
+            'extreme_cold_days': extreme_cold
+        })
+    
+    return pd.DataFrame(result).set_index('year').fillna(0).astype(int)
 
 def yearly_mean_temperature(df):
     """
