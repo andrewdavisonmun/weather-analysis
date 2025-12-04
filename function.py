@@ -96,5 +96,7 @@ def get_season(month):
         return 'Spring'
     elif month in [6, 7, 8]:
         return 'Summer'
-    else:
+    elif month in [9, 10, 11]:
         return 'Fall'
+    else:
+        raise ValueError(f"Invalid month: {month}")
