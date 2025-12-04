@@ -32,3 +32,11 @@ def test_yearly_extreme_days():
   result = yearly_extreme_days(df, high_quantile = 0.75, low_quantile = 0.25)
   expected = pd.DataFrame({"extreme_hot_days": [1], "extreme_cold_days": [1]}, index=pd.Index([2011], dtype=result.index.dtype, name='year'))
   pd.testing.assert_frame_equal(result, expected)
+
+def test_yearly_mean_temperature():
+  dates = pd.date_range(start="2011-01-01", periods = 4)
+  df = pd.DataFrame({"Mean Temp (°C)": [10, 20, 30, 40], index = dates)
+  result = yearly_mean_temperature(df)
+  expected = pd.Series([25.0], index=pd.Index([2011], dtype=result.index.dtype, name='year'))
+  assert result.equals(expected), f"Expected {expected.tolist()}, got {result.tolist()}"
+
