@@ -169,6 +169,11 @@ season_order = ['Winter', 'Spring', 'Summer', 'Fall']
 plt.figure(figsize=(10,5))
 seasonal_mean = seasonal_mean.reindex(season_order)
 plt.bar(seasonal_mean.index, seasonal_mean.values, color=['skyblue','green','orangered','gold'])
+
+for bar in bars:
+    height = bar.get_height()
+    plt.text(bar.get_x() + bar.get_width()/2, height + 0.1, f"{height:.1f}", ha='center', va='bottom', fontsize=12)
+    
 plt.title("Average Temperature by Season", fontsize=16)
 plt.xlabel("Season", fontsize=12)
 plt.ylabel("Mean Temperature (°C)", fontsize=12)
