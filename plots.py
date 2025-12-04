@@ -10,7 +10,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 
-df = pd.read_csv("~/Downloads/weather_data/toronto_citycentre_daily_2005_2025.csv")
+df = pd.read_csv("toronto_citycentre_daily_2005_2025.csv")
 
 df["Date/Time"] = pd.to_datetime(df["Date/Time"], errors="coerce")
 
