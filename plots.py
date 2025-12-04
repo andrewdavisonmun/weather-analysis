@@ -12,6 +12,7 @@ import matplotlib.dates as mdates
 import seaborn as sns
 from function import daily_temperature_range, rolling_mean_temperature, yearly_extreme_days, yearly_mean_temperature, temperature_trend, get_season
 import calendar
+import numpy as np
 
 df = pd.read_csv("toronto_citycentre_daily_2005_2025.csv")
 
