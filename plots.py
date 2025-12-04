@@ -113,8 +113,19 @@ yearly_mean = yearly_mean_temperature(df)
 slope, p_value = temperature_trend(yearly_mean.index, yearly_mean.values)
 
 yearly_mean_dt = pd.to_datetime(yearly_mean.index.astype(str) + "-01-01")
+
+
 plt.figure(figsize=(12,5))
 plt.plot(yearly_mean_dt, yearly_mean.values, marker = 'o', color = 'green', label = 'Yearly Mean')
+
+x = yearly_mean.index.astype(float)
+y = yearly_mean.values
+
+m, b = np.polyfit(x, y, 1)
+trend_y = m * x + b
+
+plt.plot(yearly_mean_dt, trend_y, color='black', linewidth=2, linestyle='--', label='Trendline')
+
 plt.title(f"Yearly Mean Temperature (Slope = {slope:.2f} °C/Year, p = {p_value:.3f})", fontsize=16)
 plt.xlabel("Year", fontsize=12)
 plt.ylabel("Mean Temperature (°C)", fontsize=12)
@@ -139,7 +150,6 @@ plt.xticks(rotation=0)
 
 plt.tight_layout()
 plt.show()
-
 # Plot Average Monthly Temp
 monthly_mean = df.groupby(df.index.month)['Mean Temp (°C)'].mean()
 monthly_mean.plot(kind = "bar", figsize=(12,5), color = 'teal', label = 'Avg Temp')
