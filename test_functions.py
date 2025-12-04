@@ -30,5 +30,5 @@ def test_yearly_extreme_days():
   dates = pd.date_range(start="2011-01-01", periods = 4)
   df = pd.DataFrame({"Max Temp (°C)": [10, 50, 20, 5], "Min Temp (°C)": [0, 30, -10, -20]}, index = dates)
   result = yearly_extreme_days(df, high_quantile = 0.75, low_quantile = 0.25)
-  expected = pd.DataFrame({"extreme_hot_days": [1], "extreme_cold_days": [1]}, index = pd.Index([2011], dtype = 'int64'))
+  expected = pd.DataFrame({"extreme_hot_days": [1], "extreme_cold_days": [1]}, index=pd.Index([2011], dtype='int64', name='year'))
   pd.testing.assert_frame_equal(result, expected)
