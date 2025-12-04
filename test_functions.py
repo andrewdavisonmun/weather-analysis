@@ -85,3 +85,17 @@ def test_temperature_trend():
   slope, p_value = temperature_trend(years, values)
   assert round(slope, 5) == 10.0, f"Expected slope 10.0, got {slope}"
   assert 0 <= p_value <= 1, f"p-value out of bounds: {p_value}"
+
+def test_temperature_trend_negative():
+  years = [2020, 2021, 2022]
+  values = [30, 20, 10]
+  slope, p_value = temperature_trend(years, values)
+  assert round(slope, 5) == -10.0, f"Expected slope -10.0, got {slope}"
+  assert 0 <= p_value <= 1, f"p-value out of bounds: {p_value}"
+
+def test_temperature_trend_flat():
+  years = [2020, 2021, 2022]
+  values = [10, 10, 10]
+  slope, p_value = temperature_trend(years, values)
+  assert round(slope, 5) == 0.0, f"Expected slope 0.0, got {slope}"
+  assert 0 <= p_value <= 1, f"p-value out of bounds: {p_value}"
