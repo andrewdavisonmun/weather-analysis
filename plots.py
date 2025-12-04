@@ -52,7 +52,7 @@ ax = plt.gca()
 ax.xaxis.set_major_locator(mdates.YearLocator())
 ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y"))
 
-plt.xticks(rotation=45)
+plt.xticks(rotation=0)
 plt.tight_layout()
 plt.show()
 
@@ -66,6 +66,12 @@ plt.xlabel("Date", fontsize=12)
 plt.ylabel("Temperature Range (°C)", fontsize=12)
 plt.grid(True, alpha = 0.3)
 plt.legend()
+
+ax = plt.gca()
+ax.xaxis.set_major_locator(mdates.YearLocator(1))
+ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y"))
+plt.xticks(rotation=0)
+
 plt.tight_layout()
 plt.show()
 
@@ -78,6 +84,12 @@ plt.title("Toronto Mean Temperature with 30-Day Rolling Average", fontsize=16)
 plt.xlabel("Date", fontsize=12)
 plt.ylabel("Temperature (°C)", fontsize=12)
 plt.legend()
+
+ax = plt.gca()
+ax.xaxis.set_major_locator(mdates.YearLocator(1))
+ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y"))
+plt.xticks(rotation=0)
+
 plt.grid(True, alpha = 0.3)
 plt.ylim(y_min, y_max)
 plt.tight_layout()
@@ -89,7 +101,7 @@ yearly_extremes.plot(kind = "bar", figsize = (12,5), color = ['orangered', 'skyb
 plt.title("Yearly Extreme Hot and Cold Days", fontsize=16)
 plt.xlabel("Year", fontsize=12)
 plt.ylabel("Number of Extreme Days", fontsize=12)
-plt.xticks(rotation = 45)
+plt.xticks(rotation = 0)
 plt.grid(axis = 'y', alpha = 0.3)
 plt.legend(['Extreme Hot Days','Extreme Cold Days'])
 plt.tight_layout()
@@ -99,13 +111,20 @@ plt.show()
 yearly_mean = yearly_mean_temperature(df)
 slope, p_value = temperature_trend(yearly_mean.index, yearly_mean.values)
 
+yearly_mean_dt = pd.to_datetime(yearly_mean.index.astype(str) + "-01-01")
 plt.figure(figsize=(12,5))
-plt.plot(yearly_mean.index, yearly_mean.values, marker = 'o', color = 'green', label = 'Yearly Mean')
+plt.plot(yearly_mean_dt, yearly_mean.values, marker = 'o', color = 'green', label = 'Yearly Mean')
 plt.title(f"Yearly Mean Temperature (Slope = {slope:.2f} °C/Year, p = {p_value:.3f})", fontsize=16)
 plt.xlabel("Year", fontsize=12)
-plt.ylabel("Mean Temperature (°C)", fontsize=12)
+plt.ylabel("Temperature (°C)", fontsize=12)
 plt.grid(True, alpha = 0.3)
 plt.legend()
+
+ax = plt.gca()
+ax.xaxis.set_major_locator(mdates.YearLocator(1))
+ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y"))
+plt.xticks(rotation=0)
+
 plt.tight_layout()
 plt.show()
 
@@ -115,8 +134,27 @@ monthly_mean.plot(kind = "bar", figsize=(12,5), color = 'teal', label = 'Avg Tem
 plt.title("Average Monthly Temperature", fontsize=16)
 plt.xlabel("Month", fontsize=12)
 plt.ylabel("Temperature (°C)", fontsize=12)
-plt.xticks(ticks=range(12), labels=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'], rotation=45)
+plt.xticks(ticks=range(12), labels=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'], rotation=0)
 plt.grid(axis = 'y', alpha = 0.3)
 plt.legend()
+plt.tight_layout()
+plt.show()
+
+# Plot Heatmap
+
+df['Year'] = df.index.year
+df['DayOfYear'] = df.index.dayofyear
+pivot_temp = df.pivot_table(values='Mean Temp (°C)', index='Year', columns='DayOfYear')
+
+plt.figure(figsize=(15,6))
+sns.heatmap(pivot_temp, cmap='coolwarm', cbar_kws={'label': 'Mean Temperature (°C)'}, xticklabels=False)
+
+month_starts = [pd.Timestamp(f'2020-{m:02d}-01').dayofyear for m in range(1,13)]
+month_names = [calendar.month_abbr[m] for m in range(1,13)]
+plt.xticks(ticks=[m-1 for m in month_starts], labels=month_names, rotation=0)
+
+plt.title("Daily Mean Temperature Heatmap (2011–2025)", fontsize=16)
+plt.xlabel("Month", fontsize=12)
+plt.ylabel("Year", fontsize=12)
 plt.tight_layout()
 plt.show()
