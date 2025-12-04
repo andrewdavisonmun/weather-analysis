@@ -120,6 +120,18 @@ plt.xlabel("Year", fontsize=12)
 plt.ylabel("Mean Temperature (°C)", fontsize=12)
 plt.grid(True, alpha = 0.3)
 
+for year in [2015, 2025]:
+    temp_value = yearly_mean.loc[year]
+    plt.annotate(
+        f"Many winter days\nmissing in {year}",
+        xy=(pd.Timestamp(f"{year}-01-01"), temp_value),
+        xytext=(pd.Timestamp(f"{year}-01-01"), temp_value - 0.5),
+        arrowprops=dict(facecolor='red', arrowstyle='->'),
+        fontsize=10,
+        color='red',
+        ha='center'
+    )
+        
 ax = plt.gca()
 ax.xaxis.set_major_locator(mdates.YearLocator(1))
 ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y"))
