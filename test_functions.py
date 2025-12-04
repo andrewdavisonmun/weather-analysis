@@ -16,7 +16,7 @@ def test_daily_temperature_range_with_nan():
   assert result.equals(expected), f"Expected {expected.tolist()}, got {result.tolist()}"
 
 def test_daily_temperature_range_negative():
-  df = pd.DataFrame({"Max Temp (°C)": [10, -5], "Min Temp (°C)": [-10, -15]})
+  df = pd.DataFrame({"Max Temp (°C)": [0, -5], "Min Temp (°C)": [-10, -15]})
   expected = pd.Series([10,10])
   result = daily_temperature_range(df)
   assert result.equals(expected), f"Expected {expected.tolist()}, got {result.tolist()}"
@@ -27,13 +27,19 @@ def test_rolling_mean_temperature():
   df = pd.DataFrame({"Mean Temp (°C)": [10, 20, 30, 40]})
   expected = pd.Series([10.0, 15.0, 25.0, 35.0])
   result = rolling_mean_temperature(df, window = 2)
-  assert result.equals(expected), f"Expected {expected.tolist()}, got {result.tolist()}"
+  np.testing.assert_allclose(result.values, expected.values)
 
 def test_rolling_mean_temperature_window1():
   df = pd.DataFrame({"Mean Temp (°C)": [5, 15, 25]})
   expected = pd.Series([5.0, 15.0, 25.0])
   result = rolling_mean_temperature(df, window = 1)
-  assert result.equals(expected), f"Expected {expected.tolist()}, got {result.tolist()}"
+  np.testing.assert_allclose(result.values, expected.values)
+
+def test_rolling_mean_temperature_with_nan():
+  df = pd.DataFrame({"Mean Temp (°C)": [10, np.nan, 20]})
+  expected = pd.Series([10.0, 10.0, 15.0])
+  result = rolling_mean_temperature(df, window = 2)
+  np.testing.assert_allclose(result.values, expected.values, equal_nan = True)
 
 # yearly_extreme_days
 def test_yearly_extreme_days():
