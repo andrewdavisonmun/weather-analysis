@@ -44,3 +44,50 @@ def rolling_mean_temperature(df, window=30):
     """
     temps = pd.to_numeric(df["Mean Temp (°C)"], errors="coerce")
     return temps.rolling(window=window, min_periods=1).mean()
+
+def yearly_extreme_days(df, high_quantile = 0.99, low_quantile = 0.01):
+    """
+    Counts the number of yearly extreme hot and cold days based on quantiles
+
+    Parameters:
+    df:
+    pandas.DataFrame
+        Must contain: "Max Temp (°C)" and "Min Temp (°C)" columns
+    high_quant : float
+        Quantile for defining extremely hot days
+    low_quant : float
+        Quantile for defining extremely cold days
+
+    Returns:
+    pandas.DataFrame
+        with index: year
+        and columns: "extreme_hot_days", "extreme_cold_days"
+    """
+    df = df.copy()
+    df['year'] = df.index.year
+    hot_cutoff = df["Max Temp (°C)"].quantile(high_quantile)
+    cold_cutoff = df["Min Temp (°C)"].quantile(low_quantile)
+
+    extreme_hot = df[df["Max Temp (°C)"] >= hot_cutoff].groupby('year').size()
+    extreme_cold = df[df["Min Temp (°C)"] <= cold_cutoff].groupby('year').size()
+
+    result = pd.DataFrame({
+        'extreme_hot_days': extreme_hot,
+        'extreme_cold_days': extreme_cold
+    }).fillna(0).astype(int)
+    
+    return result
+
+def yearly_mean_temperature(df):
+    """
+    Returns yearly mean temperature.
+    """
+    return df.groupby(df.index.year)['Mean Temp (°C)'].mean()
+
+def temperature_trend(years, values):
+    """
+    Calculates linear trend (slope, p-value) for given yearly values.
+    """
+    from scipy.stats import linregress
+    slope, intercept, r_value, p_value, std_err = linregress(years, values)
+    return slope, p_value
