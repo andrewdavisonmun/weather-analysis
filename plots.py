@@ -56,7 +56,7 @@ ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y"))
 
 plt.xticks(rotation=0)
 plt.tight_layout()
-plt.savefig("figures/daily_max_min_temperatures.png", dpi=300)
+plt.savefig("daily_max_min_temperatures.png", dpi=300)
 plt.show()
 
 # Plot Daily Temperature Range
@@ -76,7 +76,7 @@ ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y"))
 plt.xticks(rotation=0)
 
 plt.tight_layout()
-plt.savefig("figures/daily_temperature_range.png", dpi=300)
+plt.savefig("daily_temperature_range.png", dpi=300)
 plt.show()
 
 # Plot Rolling Mean Temperature
@@ -97,7 +97,7 @@ plt.xticks(rotation=0)
 plt.grid(True, alpha = 0.3)
 plt.ylim(y_min, y_max)
 plt.tight_layout()
-plt.savefig("figures/rolling_mean_temperature.png", dpi=300)
+plt.savefig("rolling_mean_temperature.png", dpi=300)
 plt.show()
 
 # Plot Yearly Extreme Hot and Cold Days
@@ -110,7 +110,7 @@ plt.xticks(rotation = 0)
 plt.grid(axis = 'y', alpha = 0.3)
 plt.legend(['Extreme Hot Days','Extreme Cold Days'])
 plt.tight_layout()
-plt.savefig("figures/yearly_extreme_days.png", dpi=300)
+plt.savefig("yearly_extreme_days.png", dpi=300)
 plt.show()
 
 # Plot Yearly Mean Temp with Trend
@@ -154,7 +154,7 @@ ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y"))
 plt.xticks(rotation=0)
 
 plt.tight_layout()
-plt.savefig("figures/yearly_mean_temperature_trend.png", dpi=300)
+plt.savefig("yearly_mean_temperature_trend.png", dpi=300)
 plt.show()
 
 # Plot Average Monthly Temp
@@ -168,7 +168,7 @@ plt.xticks(ticks=range(12), labels=['Jan','Feb','Mar','Apr','May','Jun','Jul','A
 plt.grid(axis = 'y', alpha = 0.3)
 plt.legend()
 plt.tight_layout()
-plt.savefig("figures/average_monthly_temperature.png", dpi=300)
+plt.savefig("average_monthly_temperature.png", dpi=300)
 plt.show()
 
 # Plot Heatmap
@@ -188,7 +188,7 @@ plt.title("Daily Mean Temperature Heatmap (2011–2025)", fontsize=16)
 plt.xlabel("Month", fontsize=12)
 plt.ylabel("Year", fontsize=12)
 plt.tight_layout()
-plt.savefig("figures/daily_mean_temperature_heatmap.png", dpi=300)
+plt.savefig("daily_mean_temperature_heatmap.png", dpi=300)
 plt.show()
 
 # Plot Season
@@ -212,5 +212,5 @@ plt.ylabel("Mean Temperature (°C)", fontsize=12)
 plt.grid(axis='y', alpha=0.3)
 plt.xticks(fontsize=14)
 plt.tight_layout()
-plt.savefig("figures/seasonal_average_temperature.png", dpi=300)
+plt.savefig("seasonal_average_temperature.png", dpi=300)
 plt.show()
