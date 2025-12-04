@@ -168,7 +168,7 @@ season_order = ['Winter', 'Spring', 'Summer', 'Fall']
 
 plt.figure(figsize=(10,5))
 seasonal_mean = seasonal_mean.reindex(season_order)
-plt.bar(seasonal_mean.index, seasonal_mean.values, color=['skyblue','green','orangered','gold'])
+bars = plt.bar(seasonal_mean.index, seasonal_mean.values, color=['skyblue','green','orangered','gold'])
 
 for bar in bars:
     height = bar.get_height()
