@@ -126,7 +126,7 @@ for year in [2015, 2025]:
         f"Many winter days\nmissing in {year}",
         xy=(pd.Timestamp(f"{year}-01-01"), temp_value),
         xytext=(pd.Timestamp(f"{year}-01-01"), temp_value - 0.5),
-        arrowprops=dict(facecolor='red', arrowstyle='->'),
+        arrowprops=dict(facecolor='red', edgecolor='red', arrowstyle='->', connectionstyle="angle,angleA=90,angleB=0"),
         fontsize=10,
         color='red',
         ha='center'
