@@ -69,8 +69,15 @@ def test_yearly_mean_temperature():
   df = pd.DataFrame({"Mean Temp (°C)": [10, 20, 30, 40]}, index = dates)
   result = yearly_mean_temperature(df)
   expected = pd.Series([25.0], index=pd.Index([2011], dtype=result.index.dtype, name='year'))
-  assert result.equals(expected), f"Expected {expected.tolist()}, got {result.tolist()}"
+  np.testing.assert_allclose(results.values, expected.values)
 
+def test_yearly_mean_temperature_multiple_years():
+  dates = pd.date_range(start="2011-12-31", periods = 5)
+  df = pd.DataFrame({"Mean Temp (°C)": [10, 20, 30, 40, 50]}, index = dates)
+  result = yearly_mean_temperature(df)
+  expected = pd.Series([20.0, 45.0], index=pd.Index([2011, 2012], dtype=result.index.dtype, name='year'))
+  np.testing.assert_allclose(results.values, expected.values)
+  
 # temperature_trend
 def test_temperature_trend():
   years = [2020, 2021, 2022]
