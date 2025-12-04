@@ -172,7 +172,7 @@ bars = plt.bar(seasonal_mean.index, seasonal_mean.values, color=['skyblue','gree
 
 for bar in bars:
     height = bar.get_height()
-    plt.text(bar.get_x() + bar.get_width()/2, height + 0.1, f"{height:.1f}", ha='center', va='bottom', fontsize=12)
+    plt.text(bar.get_x() + bar.get_width()/2, height + 0.09, f"{height:.1f}", ha='center', va='bottom', fontsize=12)
     
 plt.title("Average Temperature by Season", fontsize=16)
 plt.xlabel("Season", fontsize=12)
