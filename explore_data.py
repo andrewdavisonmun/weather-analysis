@@ -8,7 +8,7 @@ Created on Tue Oct 21 13:54:43 2025
 
 import pandas as pd
 
-df = pd.read_csv("~/Downloads/weather_data/toronto_citycentre_daily_2005_2025.csv")
+df = pd.read_csv("toronto_citycentre_daily_2005_2025.csv")
 
 df["Date/Time"] = pd.to_datetime(df["Date/Time"], errors="coerce")
 df = df.dropna(subset=["Date/Time"])
