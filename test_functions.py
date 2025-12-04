@@ -19,3 +19,16 @@ def test_rolling_mean_temperature():
   expected = pd.Series([10.0, 15.0, 25.0, 35.0])
   result = rolling_mean_temperature(df, window = 2)
   assert result.equals(expected), f"Expected {expected.tolist()}, got {result.tolist()}"
+
+def test_rolling_mean_temperature():
+  df = pd.DataFrame({"Mean Temp (°C)": [5, 15, 25]})
+  expected = pd.Series([5, 15, 25])
+  result = rolling_mean_temperature(df, window = 1)
+  assert result.equals(expected), f"Expected {expected.tolist()}, got {result.tolist()}"
+
+def test_yearly_extreme_days():
+  dates = pd.date_range(start="2011-01-01", periods = 4)
+  df = pd.DataFrame({"Max Temp (°C)": [10, 50, 20, 5], "Min Temp (°C)": [0, 30, -10, -20]}, index = dates)
+  result = yearly_extreme_days(df, high_quantile = 0.75, low_quantile = 0.25)
+  expected = pd.DataFrame({"extreme_hot_days": [1], "extreme_cold_days": [1]}, index = [2019])
+  pd.testing.assert_frame_equal(result, expected)
