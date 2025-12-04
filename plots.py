@@ -159,3 +159,20 @@ plt.xlabel("Month", fontsize=12)
 plt.ylabel("Year", fontsize=12)
 plt.tight_layout()
 plt.show()
+
+# Plot Season
+
+df["Season"] = df.index.month.map(get_season)
+
+seasonal_mean = df.groupby('Season')['Mean Temp (°C)'].mean()
+season_order = ['Winter', 'Spring', 'Summer', 'Fall']
+
+plt.figure(figsize=(10,5))
+seasonal_mean = seasonal_mean.reindex(season_order)
+plt.bar(seasonal_mean.index, seasonal_mean.values, color=['skyblue','green','orangered','gold'])
+plt.title("Average Temperature by Season", fontsize=16)
+plt.xlabel("Season", fontsize=12)
+plt.ylabel("Mean Temperature (°C)", fontsize=12)
+plt.grid(axis='y', alpha=0.3)
+plt.tight_layout()
+plt.show()
