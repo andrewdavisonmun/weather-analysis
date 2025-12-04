@@ -40,3 +40,9 @@ def test_yearly_mean_temperature():
   expected = pd.Series([25.0], index=pd.Index([2011], dtype=result.index.dtype, name='year'))
   assert result.equals(expected), f"Expected {expected.tolist()}, got {result.tolist()}"
 
+def test_temperature_trend():
+  years = [2020, 2021, 2022]
+  values = [10, 20, 30]
+  slope, p_value = temperature_trend(years, values)
+  assert round(slope, 5) == 10.0, f"Expected slope 10.0, got {slope}"
+  assert 0 <= p_value <= 1, f"p-value out of bounds: {p_value}"
