@@ -130,10 +130,15 @@ plt.show()
 
 # Plot Average Monthly Temp
 monthly_mean = df.groupby(df.index.month)['Mean Temp (°C)'].mean()
-monthly_mean.plot(kind = "bar", figsize=(12,5), color = 'teal', label = 'Avg Temp')
+bars = monthly_mean.plot(kind = "bar", figsize=(12,5), color = 'teal', label = 'Avg Temp')
 plt.title("Average Monthly Temperature", fontsize=16)
 plt.xlabel("Month", fontsize=12)
 plt.ylabel("Temperature (°C)", fontsize=12)
+
+for bar in bars:
+    height = bar.get_height()
+    plt.text(bar.get_x() + bar.get_width()/2, height + 0.09, f"{height:.1f}", ha='center', va='bottom', fontsize=12)
+    
 plt.xticks(ticks=range(12), labels=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'], rotation=0)
 plt.grid(axis = 'y', alpha = 0.3)
 plt.legend()
